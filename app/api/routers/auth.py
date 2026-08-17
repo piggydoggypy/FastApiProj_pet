@@ -12,17 +12,13 @@ router = APIRouter(prefix='/api/v1/auth')
 security = HTTPBearer()
 
 
-# def runtime_deco(func: Callable):
-#     def wrapper(*args, **kwargs):
-#         start = time.time()
-#         result = func(*args, **kwargs)
-#         print(time.time() - start)
-#         return result
-#
-#     return wrapper
+
+@router.get("/", status_code=status.HTTP_200_OK)
+def start_page():
+    return {'status': "ok welcome"}
 
 
-# @runtime_deco
+
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def user_register(payload: RegisterUser,
                   user_service: UserService =  Depends(get_user_service)):
