@@ -10,7 +10,7 @@ class Settings:
 
 def get_settings() -> Settings:
     return Settings(
-        DATABASE_URL="postgresql+psycopg://postgres:123456@127.0.0.1:5432/postgres",
+        DATABASE_URL="postgresql://postgres:postgres@localhost:5432/fastapi_db",
         secret_key="ewrdtfyvghbjnkmlDSDSGKLKDDSetrydtfgyvh",
         cors_origins=["http://localhost:3000"],
     )
