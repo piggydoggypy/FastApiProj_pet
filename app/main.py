@@ -1,12 +1,13 @@
-from fastapi import FastAPI, Request, Response
-from time import perf_counter
 import logging
+from time import perf_counter
+
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routers.auth import router as auth_router
 from app.api.routers.users import router as user_router
-from app.core.logging_settings import configure_logging
 from app.core.config import get_settings
+from app.core.logging_settings import configure_logging
 
 configure_logging()
 
@@ -29,7 +30,10 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-@app.middleware("http")  # log_requests выполнится до и после обработки каждого HTTP-запроса
+
+@app.middleware(
+    "http"
+)  # log_requests выполнится до и после обработки каждого HTTP-запроса
 async def log_requests(request: Request, call_next) -> Response:
     started_at = perf_counter()
     try:
@@ -57,11 +61,13 @@ async def log_requests(request: Request, call_next) -> Response:
 
 # middleware для подсчёта количества реквестов, добавил логированние для удобства
 count = 0
+
+
 @app.middleware("http")
 async def count_requests(request: Request, call_next) -> Response:
     global count
     response: Response = await call_next(request)
-    count +=1
+    count += 1
     response.headers["X-Request-Number"] = str(count)
     logger.info(
         "%s %s -> %s requests_count %s",
@@ -71,10 +77,8 @@ async def count_requests(request: Request, call_next) -> Response:
         count,
     )
 
-
     return response
+
 
 app.include_router(auth_router)
 app.include_router(user_router)
-
-

@@ -1,10 +1,8 @@
-from app.models.models import Base
-from datetime import datetime
-from sqlalchemy.orm import Mapped, mapped_column
 from uuid import uuid4
 
+from sqlalchemy.orm import Mapped, mapped_column
 
-
+from app.models.models import Base
 
 
 class UsersORM(Base):

@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 
-#POST Регистрация request
+
+# POST Регистрация request
 class RegisterUser(BaseModel):
     username: str
     email: str
     password: str
 
-#response 201 / GET
+
+# response 201 / GET
 class ResponseUser(BaseModel):
     id: str
     username: str
@@ -14,13 +16,13 @@ class ResponseUser(BaseModel):
     role: str
 
 
-
-#POST Логин request
+# POST Логин request
 class LoginUser(BaseModel):
     email: str
     password: str
 
-#response 200
+
+# response 200
 class LoginUserResponse(BaseModel):
     access_token: str
     refresh_token: str
@@ -30,6 +32,8 @@ class LoginUserResponse(BaseModel):
 # POST refresh request
 class Refresh(BaseModel):
     refresh_token: str
+
+
 # response
 class RefreshResponse(BaseModel):
     access_token: str
@@ -40,16 +44,16 @@ class RefreshResponse(BaseModel):
 class LogoutUser(BaseModel):
     refresh_token: str
 
-#response 204
+
+# response 204
 
 
 # PATCH change_username Request
 class ChangeUsername(BaseModel):
     username: str
 
+
 # PATCH change_password Request
 class ChangePassword(BaseModel):
     current_password: str
     new_password: str
-
-
