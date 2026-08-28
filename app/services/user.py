@@ -38,6 +38,8 @@ class UserService:
 
     """Работает, сделано на 100%"""
 
+
+
     def create_user(self, payload: RegisterUser) -> ResponseUser:
         try:
             usernames = self.user_repository.get_all_usernames()
@@ -51,16 +53,16 @@ class UserService:
         new_user = UsersORM(
             username=payload.username,
             email=payload.email,
-            # password = generate_password_hash(payload.password), #Пока тесты пусть будет не хешированный
             password=payload.password,
             role="EMPLOYEE",
             created_at=str(datetime.now().date()),
         )
         self.user_repository.create_user(new_user)
+        created_user = self.user_repository.get_by_email(payload.email)
         self.db.commit()
 
         return ResponseUser(
-            id=new_user.id,
+            id=created_user.id,
             username=new_user.username,
             email=new_user.email,
             role=new_user.role,
@@ -71,8 +73,6 @@ class UserService:
         if user is None:
             raise WrongEmail("Неправильный email")
 
-        # if not check_password_hash(user.password, payload.password): #пока тесты пароли не хешируются
-        #     raise WrongPassword("Неправильный пароль")
         if user.password != payload.password:
             raise WrongPassword("Неправильный пароль")
 
